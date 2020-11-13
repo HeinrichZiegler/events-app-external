@@ -36,10 +36,11 @@ app.engine('hbs', hbs({
 // this would be used in a POST to the server as follows:
 // app.post('/route', urlencodedParser, (req, res) => {}
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
+const team = "Google DevOps";
 
 // defines a route that receives the request to /
 app.get('/', (req, res) => {
+    
     // make a request to the backend microservice using the request package
     // the URL for the backend service should be set in configuration 
     // using an environment variable. Here, the variable is passed 
@@ -72,7 +73,8 @@ app.get('/', (req, res) => {
                         // {{body}} in the layout - the code
                         // in here inserts values from the JSON
                         // received from the server
-                        events: body.events
+                        events: body.events,
+                        team: 'DevOps'
                     }); // pass the data from the server to the template
             }
         });
@@ -120,6 +122,8 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: err.message });
 });
+
+app.use(express.static(__dirname + '/public/'));
 
 // specify the port and start listening
 const PORT = process.env.PORT ? process.env.PORT : 8080;
